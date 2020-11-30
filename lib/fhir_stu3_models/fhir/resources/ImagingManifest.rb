@@ -62,8 +62,7 @@ module FHIR
               'extension' => {'type'=>'Extension', 'path'=>'Instance.extension', 'min'=>0, 'max'=>Float::INFINITY},
               'modifierExtension' => {'type'=>'Extension', 'path'=>'Instance.modifierExtension', 'min'=>0, 'max'=>Float::INFINITY},
               'sopClass' => {'type'=>'oid', 'path'=>'Instance.sopClass', 'min'=>1, 'max'=>1},
-              'uid' => {'type'=>'oid', 'path'=>'Instance.uid', 'min'=>1, 'max'=>1},
-              'frameNumber' => {'type'=>'unsignedInt', 'path'=>'Instance.frameNumber', 'min'=>0, 'max'=>Float::INFINITY}
+              'uid' => {'type'=>'oid', 'path'=>'Instance.uid', 'min'=>1, 'max'=>1}
             }
 
             attr_accessor :id                # 0-1 string
