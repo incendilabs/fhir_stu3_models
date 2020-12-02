@@ -106,8 +106,19 @@ module FluentPath
               node = node[0..node.index('[') - 1]
             end
             if previous_node.is_a?(Hash) || previous_node.is_a?(Array)
+              node_as = node.eql?("as")
+              node_is = node.eql?("is")
+              if node_as || node_is
+                node = tree[index + 1]
+              end
               tree[index] = get(node, previous_node)
+              if node_is
+                tree[index] = !!tree[index]
+              end
               clean_index(tree, previous_index)
+              if node_as || node_is
+                tree[index + 1] = nil
+              end
             elsif !previous_node.is_a?(FluentPath::STU3::Expression)
               tree[index] = get(node, data)
             end
@@ -155,10 +166,10 @@ module FluentPath
               end
               previous_node = [] if previous_node == :null
               if previous_node.is_a?(Array)
-                previous_node.map! do |item|
+                compute_result = previous_node.map do |item|
                   compute(block.clone, item)
                 end
-                tree[index] = previous_node
+                tree[index] = compute_result
                 clean_index(tree, previous_index)
               elsif previous_node.is_a?(Hash)
                 tree[index] = compute(block, previous_node)
@@ -288,7 +299,11 @@ module FluentPath
               tree[index] = (previous_node == :null || previous_node.empty? rescue previous_node.nil?)
               clean_index(tree, previous_index)
             when :exists
-              tree[index] = !previous_node.nil? && previous_node != :null
+              if previous_node.is_a?(Array)
+                tree[index] = previous_node.any? {|item| !item.nil? && item != :null}
+              else
+                tree[index] = !previous_node.nil? && previous_node != :null
+              end
               clean_index(tree, previous_index)
             when :distinct
               tree[index] = (previous_node.uniq rescue previous_node)
@@ -571,7 +586,7 @@ module FluentPath
 
       # check for symbols
       tree.each do |node|
-        raise "Unhandled reserved symbol: #{node}" if node.is_a?(Symbol)
+        raise "Unhandled reserved symbol: #{node}" if node.is_a?(Symbol) && node.to_sym != :null
       end
 
       FHIR::STU3.logger.debug "OUT: #{tree}"
