@@ -1,4 +1,5 @@
 require_relative '../test_helper'
+require 'ostruct'
 
 class ProfileValidationTest < Test::Unit::TestCase
   ERROR_DIR = File.join('tmp', 'errors', 'ProfileValidationTest')
@@ -341,11 +342,11 @@ class ProfileValidationTest < Test::Unit::TestCase
 
     sd.errors = []
     sd.send(:verify_element, element, 'cc' => { 'coding' => [{ 'system' => 'http://ncimeta.nci.nih.gov', 'code' => 'C2222222' }] }) # wrong code
-    assert_equal("cc CodeableConcept did not match defined pattern: {\"coding\"=>[{\"system\"=>\"http://ncimeta.nci.nih.gov\", \"code\"=>\"C2004062\"}]}", sd.errors[0])
+    assert_equal("cc CodeableConcept did not match defined pattern: #{element.pattern.to_hash}", sd.errors[0])
 
     sd.errors = []
     sd.send(:verify_element, element, 'cc' => { 'coding' => [{ 'system' => 'http://hl7.org/fhir/sid/icd-10', 'code' => 'Q841' }] }) # completely different
-    assert_equal("cc CodeableConcept did not match defined pattern: {\"coding\"=>[{\"system\"=>\"http://ncimeta.nci.nih.gov\", \"code\"=>\"C2004062\"}]}", sd.errors[0])
+    assert_equal("cc CodeableConcept did not match defined pattern: #{element.pattern.to_hash}", sd.errors[0])
   end
 
   def test_invalid_value_per_type
