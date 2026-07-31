@@ -518,6 +518,15 @@ RSpec.describe 'FHIR::STU3' do
         specify "value='urn:oid:1.2.3.4'" do
           expect(subject.primitive?(datatype: datatype, value: 'urn:oid:1.2.3.4')).to be result
         end
+        specify "value='http://terminology.hl7.org/CodeSystem/observation-category'" do
+          expect(subject.primitive?(datatype: datatype, value: 'http://terminology.hl7.org/CodeSystem/observation-category')).to be result
+        end
+        specify "value='http://hospital.smarthealthit.org'" do
+          expect(subject.primitive?(datatype: datatype, value: 'http://hospital.smarthealthit.org')).to be result
+        end
+        specify "value='http://hl7.org.fhir/sid/us-npi'" do
+          expect(subject.primitive?(datatype: datatype, value: 'http://hl7.org.fhir/sid/us-npi')).to be result
+        end
       end
 
       context 'returns false when' do
