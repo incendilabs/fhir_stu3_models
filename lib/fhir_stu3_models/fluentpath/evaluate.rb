@@ -20,8 +20,8 @@ module FluentPath
       return 'http://unitsofmeasure.org' if key == '%ucum'
       return 'http://snomed.info/sct' if key == '%sct'
       return 'http://loinc.org' if key == '%loinc'
-      return key.gsub!(/\A\'|\'\Z/, '') if key.start_with?("'") && key.end_with?("'")
-      key.gsub!(/\A"|"\Z/, '') # remove quotes around path if they exist
+      return key.gsub(/\A\'|\'\Z/, '') if key.start_with?("'") && key.end_with?("'")
+      key = key.gsub(/\A"|"\Z/, '') # remove quotes around path if they exist
       if hash.is_a?(Array)
         response = []
         hash.each do |e|
