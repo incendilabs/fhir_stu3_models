@@ -24,7 +24,7 @@ class XmlValidationTest < Test::Unit::TestCase
     resource = FHIR::STU3::Xml.from_xml(input_xml)
     errors = resource.validate
     unless errors.empty?
-      File.open("#{ERROR_DIR}/#{example_name}.err", 'w:UTF-8') { |file| file.write(JSON.pretty_unparse(errors)) }
+      File.open("#{ERROR_DIR}/#{example_name}.err", 'w:UTF-8') { |file| file.write(JSON.pretty_generate(errors)) }
       File.open("#{ERROR_DIR}/#{example_name}.xml", 'w:UTF-8') { |file| file.write(input_xml) }
     end
     assert errors.empty?, 'Resource failed to validate.'

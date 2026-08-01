@@ -8,7 +8,7 @@ module FHIR
       #
 
       def to_json
-        JSON.pretty_unparse(to_hash)
+        JSON.pretty_generate(to_hash)
       end
 
       def self.from_json(json)

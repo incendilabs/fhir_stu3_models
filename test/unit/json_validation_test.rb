@@ -24,7 +24,7 @@ class JsonValidationTest < Test::Unit::TestCase
     resource = FHIR::STU3::Json.from_json(input_json)
     errors = resource.validate
     unless errors.empty?
-      File.open("#{ERROR_DIR}/#{example_name}.err", 'w:UTF-8') { |file| file.write(JSON.pretty_unparse(errors)) }
+      File.open("#{ERROR_DIR}/#{example_name}.err", 'w:UTF-8') { |file| file.write(JSON.pretty_generate(errors)) }
       File.open("#{ERROR_DIR}/#{example_name}.json", 'w:UTF-8') { |file| file.write(input_json) }
     end
     assert errors.empty?, "Resource failed to validate: #{errors}"

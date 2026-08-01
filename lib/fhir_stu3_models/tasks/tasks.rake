@@ -63,7 +63,7 @@ namespace :fhir do
 
       # Output the post processed file
       f = File.open(filename, 'w:UTF-8')
-      f.write(JSON.pretty_unparse(hash))
+      f.write(JSON.pretty_generate(hash))
       f.close
       finish = File.size(filename)
       puts "  Removed #{(start - finish) / 1024} KB" if start != finish

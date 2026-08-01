@@ -17,7 +17,7 @@ module FHIR
       end
 
       def to_json
-        JSON.pretty_unparse(as_json)
+        JSON.pretty_generate(as_json)
       end
 
       def from_json(json)
