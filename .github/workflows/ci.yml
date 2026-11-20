@@ -1,0 +1,41 @@
+name: FHIR STU3 Model Tests
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'master'
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    if: github.repository == 'incendilabs/fhir_stu3_models'
+    name: FHIR STU3
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout fhir_stu3_models
+        uses: actions/checkout@v7
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.4.13'
+
+      - name: Install test dependencies
+        run: |
+          gem install --no-document \
+            bcp47:0.3.3 \
+            date_time_precision:0.8.1 \
+            mime-types:3.7.0 \
+            nokogiri:1.19.4 \
+            nokogiri-diff:0.3.0 \
+            pry:0.15.2 \
+            simplecov:0.22.0 \
+            test-unit:3.7.7
+
+      - name: Run FHIR STU3 test suite
+        run: ruby -Ilib -Itest -e 'Dir["test/**/*_test.rb"].sort.each { |f| require File.expand_path(f) }'
