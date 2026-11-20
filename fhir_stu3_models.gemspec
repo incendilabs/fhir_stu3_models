@@ -24,6 +24,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'date_time_precision', '>= 0.8'
   spec.add_dependency 'bcp47', '>= 0.3'
   spec.add_dependency 'mime-types', '>= 3.0'
+  spec.add_dependency 'bigdecimal', '>= 3.1'
 
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'rake'
@@ -32,7 +33,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rspec'
   spec.add_development_dependency 'simplecov'
   spec.add_development_dependency 'nokogiri-diff'
-  spec.add_development_dependency 'rubocop', '0.67'
+  spec.add_development_dependency 'rubocop', '~> 1.92'
   spec.add_development_dependency 'guard-rspec'
   spec.add_development_dependency 'guard-test'
 end
